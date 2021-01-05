@@ -1,9 +1,13 @@
+require('dotenv').config()
 const express = require("express");
 
 const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
+const DBUSER = process.env.DB_USER;
+const DBPASS = process.env.DB_PASS;
+const DBHOST = process.env.DB_HOST;
 
 // Configure body parsing for AJAX requests
 app.use(express.urlencoded({ extended: true }));
@@ -18,10 +22,12 @@ app.use(routes);
 
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://user1:password1@ds125871.mlab.com:25871/heroku_0xn0jnk7",
+  process.env.MONGODB_URI || "mongodb+srv://"+DBUSER+":"+DBPASS+"@"+DBHOST+"/react-google-book?retryWrites=true&w=majority",
   {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     useCreateIndex: true,
-    useNewUrlParser: true
+    useFindAndModify: false
   }
 );
 
